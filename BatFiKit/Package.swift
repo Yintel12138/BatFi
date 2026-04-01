@@ -16,7 +16,6 @@ extension Target.Dependency {
     static let embeddedPropertyList: Self = .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
     static let highEnergyUsage: Self = "HighEnergyUsage"
     static let identifiedCollections: Self = .product(name: "IdentifiedCollections", package: "swift-identified-collections")
-    static let jwt: Self = .product(name: "SwiftJWT", package: "Swift-JWT")
     static let keyboardShortcuts: Self = .product(name: "KeyboardShortcuts", package: "KeyboardShortcuts")
     static let l10n: Self = "L10n"
     static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
@@ -68,7 +67,6 @@ let package = Package(
         .package(url: "https://github.com/getsentry/sentry-cocoa", from: "8.25.0"),
         .package(url: "https://github.com/ChimeHQ/AsyncXPCConnection", from: "1.1.0"),
         .package(url: "https://github.com/rurza/KeyboardShortcuts", branch: "main"),
-        .package(url: "https://github.com/Kitura/Swift-JWT", from: "4.0.0")
     ],
     targets: [
         .target(
@@ -153,7 +151,6 @@ let package = Package(
                 .defaults,
                 .defaultsKeys,
                 .dependencies,
-                .jwt,
                 .persistence,
                 .sentry,
                 .shared,

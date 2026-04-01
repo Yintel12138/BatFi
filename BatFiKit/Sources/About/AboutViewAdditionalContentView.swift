@@ -16,15 +16,6 @@ struct AboutViewAdditionalContentView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Button {
-                // Bundle.main because the license is stored in the app directly
-                guard let licenseURL = Bundle.main.url(forResource: "license", withExtension: "rtf") else { return }
-                NSWorkspace.shared.open(licenseURL)
-            } label: {
-                Text(L10n.About.Button.Label.license)
-            }
-            .buttonStyle(.link)
-            .foregroundColor(.accentColor)
             HStack(spacing: 24) {
                 Button {
                     openURL(URL(string: "https://micropixels.software/batfi")!)
