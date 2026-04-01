@@ -34,7 +34,6 @@ jobs:
           xcodebuild build \
             -project BatFi.xcodeproj \
             -scheme BatFi \
-            -configuration Release \
             -destination "generic/platform=macOS" \
             -derivedDataPath build \
             -skipMacroValidation \
@@ -44,7 +43,6 @@ jobs:
             | xcpretty || xcodebuild build \
               -project BatFi.xcodeproj \
               -scheme BatFi \
-              -configuration Release \
               -destination "generic/platform=macOS" \
               -derivedDataPath build \
               -skipMacroValidation \
@@ -56,6 +54,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: BatFi-macOS-Binary
-          path: build/Build/Products/Release/*.app
+          path: build/Build/Products/Debug/*.app
           if-no-files-found: error
           retention-days: 7
