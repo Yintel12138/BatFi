@@ -4,8 +4,6 @@ public enum L10n {
     public enum About {
         public enum Button {
             public enum Label {
-                /// License
-                public static let license = String(localized: "about.button.label.license", defaultValue: "License", bundle: Bundle.module)
                 /// Twitter
                 public static let twitter = String(localized: "about.button.label.twitter", defaultValue: "Twitter", bundle: Bundle.module)
                 /// Website
@@ -134,58 +132,6 @@ public enum L10n {
                 }
             }
         }
-    }
-
-    public enum License {
-        /// Thank You
-        public static let thankYou = String(localized: "license.label.thank_you", defaultValue: "Thank You", bundle: Bundle.module)
-
-        /// Activate BatFi
-        public static let activateBatFi = String(localized: "license.label.activate_batfi", defaultValue: "Activate BatFi", bundle: Bundle.module)
-
-        /// The app requires a valid license key to work.
-        /// Provide the email and license key you received when getting the app.
-        public static let requiresLicense = String(localized: "license.label.requires_license", defaultValue: "The app requires a valid license key to work.\nProvide the email and license key you received when getting the app.", bundle: Bundle.module)
-
-        /// Email
-        public static let email = String(localized: "license.label.email", defaultValue: "Email", bundle: Bundle.module)
-
-        /// Key
-        public static let licenseKey = String(localized: "license.label.key", defaultValue: "Key", bundle: Bundle.module)
-
-        /// I lost my license
-        public static let lostLicense = String(localized: "license.label.lost_license", defaultValue: "I lost my license", bundle: Bundle.module)
-
-        /// The app requires Internet connection to validate the license key.
-        public static let requiresInternet = String(localized: "license.label.requires_internet", defaultValue: "The app requires Internet connection to validate the license key.", bundle: Bundle.module)
-
-        /// Activate the License
-        public static let activateLicense = String(localized: "license.label.activate_license", defaultValue: "Activate the License", bundle: Bundle.module)
-
-        /// Purchase BatFi
-        public static let purchaseBatFi = String(localized: "license.label.purchase_batfi", defaultValue: "Purchase BatFi", bundle: Bundle.module)
-
-        /// Activate the license key to use the app.
-        public static let activateLicenseKeyToUse = String(localized: "license.label.activate_license_key_to_use", defaultValue: "Activate the license key to use the app.", bundle: Bundle.module)
-
-        /// Unlock failed
-        public static let unlockFailed = String(localized: "license.label.unlock_failed", defaultValue: "Unlock failed", bundle: Bundle.module)
-
-        /// Don't own BatFi yet? Buy it now!
-        public static let buyNow = String(localized: "license.label.buy_now", defaultValue: "Don't own BatFi yet? Buy it now!", bundle: Bundle.module)
-
-        // MARK: Error messages
-        
-        /// Can't identify system
-        public static let errorSystemIdentification = String(localized: "license.error.system_identification", defaultValue: "Can't identify system", bundle: Bundle.module)
-        /// Invalid response
-        public static let errorInvalidResponse = String(localized: "license.error.invalid_response", defaultValue: "Invalid response", bundle: Bundle.module)
-        /// Invalid license key or email
-        public static let errorInvalidLicenseOrEmail = String(localized: "license.error.invalid_license_or_email", defaultValue: "Invalid license key or email", bundle: Bundle.module)
-        /// License is deactivated. Please purchase the app again.
-        public static let errorDeactivatedLicense = String(localized: "license.error.deactivated_license", defaultValue: "License is deactivated. Please purchase the app again.", bundle: Bundle.module)
-        /// Unexpected response. Contact the developer if you think this is an error and have a valid license key.
-        public static let errorUnexpectedResponse = String(localized: "license.error.unexpected_response", defaultValue: "Unexpected response. Contact the developer if you think this is an error and have a valid license key.", bundle: Bundle.module)
     }
 
     public enum Menu {
@@ -753,8 +699,6 @@ public enum L10n {
                 public static let hotkeys = String(localized: "settings.tab.title.hotkeys", defaultValue: "Hotkeys", bundle: Bundle.module)
                 /// Tip jar
                 public static let tipJar = String(localized: "settings.tab.title.tip_jar", defaultValue: "Tip jar", bundle: Bundle.module)
-                /// License
-                public static let license = String(localized: "settings.tab.title.license", defaultValue: "License", bundle: Bundle.module)
             }
         }
     }
