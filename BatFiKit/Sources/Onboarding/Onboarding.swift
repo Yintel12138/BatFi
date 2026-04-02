@@ -15,6 +15,8 @@ import L10n
 import ServiceManagement
 import SwiftUI
 
+private let loginItemsSettingsURL = URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension")!
+
 enum OnboardingScreen: Int, CaseIterable {
     case welcome
     case charging
@@ -61,7 +63,7 @@ struct Onboarding: View {
                     isLoading: model.isLoading,
                     action: { model.nextAction() }
                 )
-                .disabled(model.isLoading)
+                .disabled(model.isLoading || model.isAwaitingApproval)
                 .animation(.spring(), value: model.currentScreen)
             }.overlay(alignment: .center) {
                 PageControl(
@@ -94,7 +96,7 @@ struct Onboarding: View {
             ),
             actions: {
                 Button(alertL10n.Button.Label.openSystemSettings, role: .cancel) {
-                    NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension")!)
+                    NSWorkspace.shared.open(loginItemsSettingsURL)
                 }
             },
             message: {
@@ -128,6 +130,7 @@ extension Onboarding {
         @MainActor @Published var currentScreen: OnboardingScreen = .welcome
         @MainActor @Published var helperError: NSError?
         @MainActor @Published var isLoading: Bool = false
+        @MainActor @Published var isAwaitingApproval: Bool = false
         @MainActor @Published var onboardingIsFinished = false
         @Dependency(\.helperClient) private var helperManager
         @Dependency(\.launchAtLogin) private var launchAtLogin
@@ -151,8 +154,10 @@ extension Onboarding {
                     @MainActor
                     func observeHelperStatus(error: Error?) async {
                         var counter = 0
+                        var openedSystemSettings = false
                         for await status in helperManager.observeHelperStatus() {
                             if status == .enabled {
+                                isAwaitingApproval = false
                                 self.helperError = nil
                                 if let next = currentScreen.next() {
                                     currentScreen = next
@@ -162,14 +167,35 @@ extension Onboarding {
                                 onboardingIsFinished = true
                                 NSSound(named: "Funk")?.play()
                                 break
-                            } else if let error, counter == 20 {
-                                self.helperError = error as NSError
-                            } else if status != .requiresApproval {
+                            } else if status == .requiresApproval {
+                                // The daemon is registered but the user must enable it in
+                                // System Settings → General → Login Items.
+                                // Stop the spinner and, on the first occurrence, open the
+                                // relevant settings pane automatically so the user knows
+                                // exactly where to look.
+                                isLoading = false
+                                isAwaitingApproval = true
+                                if !openedSystemSettings {
+                                    openedSystemSettings = true
+                                    NSWorkspace.shared.open(loginItemsSettingsURL)
+                                }
+                                continue
+                            } else if counter >= 20 {
+                                isAwaitingApproval = false
+                                self.helperError = (error.map { $0 as NSError })
+                                    ?? NSError(
+                                        domain: "BatFi",
+                                        code: -1,
+                                        userInfo: [NSLocalizedDescriptionKey: "Helper installation timed out. Please try again."]
+                                    )
+                                break
+                            } else {
+                                isAwaitingApproval = false
                                 try? await helperManager.removeHelper()
                                 try? await Task.sleep(for: .seconds(1))
                                 try? await helperManager.installHelper()
+                                counter += 1
                             }
-                            counter += 1
                         }
                     }
                     isLoading = true
@@ -194,6 +220,11 @@ extension Onboarding {
             if let previous = currentScreen.previous() {
                 currentScreen = previous
             }
+        }
+
+        @MainActor
+        func openLoginItemsSettings() {
+            NSWorkspace.shared.open(loginItemsSettingsURL)
         }
 
         @MainActor

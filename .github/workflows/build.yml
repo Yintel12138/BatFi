@@ -30,26 +30,30 @@ jobs:
 
       - name: Build BatFi
         run: |
-          # 使用 -derivedDataPath 指定输出路径为当前目录下的 build 文件夹
-          # 这样我们能确切知道 .app 文件在哪里
+          set -o pipefail
           xcodebuild build \
             -project BatFi.xcodeproj \
             -scheme BatFi \
             -destination "generic/platform=macOS" \
             -derivedDataPath build \
+            -skipMacroValidation \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            | xcpretty
+            | xcpretty || xcodebuild build \
+              -project BatFi.xcodeproj \
+              -scheme BatFi \
+              -destination "generic/platform=macOS" \
+              -derivedDataPath build \
+              -skipMacroValidation \
+              CODE_SIGN_IDENTITY="" \
+              CODE_SIGNING_REQUIRED=NO \
+              CODE_SIGNING_ALLOWED=NO
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: BatFi-macOS-Binary
-          # 路径指向 build 文件夹下的产品目录
-          # 注意：如果是 Release 编译，路径中的 'Debug' 可能需要改为 'Release'
           path: build/Build/Products/Debug/*.app
-          # 如果没有找到文件，直接让 Action 失败，方便排查
           if-no-files-found: error
-          # 设置保留天数（可选）
           retention-days: 7
