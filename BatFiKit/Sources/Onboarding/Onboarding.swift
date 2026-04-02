@@ -164,6 +164,7 @@ extension Onboarding {
                                 break
                             } else if let error, counter == 20 {
                                 self.helperError = error as NSError
+                                break
                             } else if status != .requiresApproval {
                                 try? await helperManager.removeHelper()
                                 try? await Task.sleep(for: .seconds(1))
