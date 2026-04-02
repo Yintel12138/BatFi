@@ -162,15 +162,21 @@ extension Onboarding {
                                 onboardingIsFinished = true
                                 NSSound(named: "Funk")?.play()
                                 break
-                            } else if let error, counter == 20 {
-                                self.helperError = error as NSError
+                            } else if status == .requiresApproval {
+                                // Waiting for the user to enable the daemon in System Settings →
+                                // General → Login Items. Don't count towards the retry limit and
+                                // don't attempt a reinstall — just keep polling until approved.
+                                continue
+                            } else if counter >= 20 {
+                                self.helperError = (error.map { $0 as NSError })
+                                    ?? NSError(domain: "BatFi", code: -1, userInfo: nil)
                                 break
-                            } else if status != .requiresApproval {
+                            } else {
                                 try? await helperManager.removeHelper()
                                 try? await Task.sleep(for: .seconds(1))
                                 try? await helperManager.installHelper()
+                                counter += 1
                             }
-                            counter += 1
                         }
                     }
                     isLoading = true
