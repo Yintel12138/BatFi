@@ -32,10 +32,18 @@ struct InstallHelperView: View {
                         Text(l10n.Label.helperRequiresAdmin)
                             .foregroundStyle(.secondary)
                     }
-                    .opacity(model.onboardingIsFinished ? 0 : 1)
+                    .opacity(model.onboardingIsFinished || model.isAwaitingApproval ? 0 : 1)
                     Text(l10n.Label.appIsReady)
                         .foregroundStyle(.secondary)
                         .opacity(model.onboardingIsFinished ? 1 : 0)
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(l10n.Label.helperRequiresApproval)
+                            .foregroundStyle(.secondary)
+                        Button(l10n.Alert.Button.Label.openSystemSettings) {
+                            model.openLoginItemsSettings()
+                        }
+                    }
+                    .opacity(model.isAwaitingApproval && !model.onboardingIsFinished ? 1 : 0)
                 }
                 Spacer()
                 Toggle(l10n.Button.Label.launchAtLogin, isOn: $launchAtLogin)

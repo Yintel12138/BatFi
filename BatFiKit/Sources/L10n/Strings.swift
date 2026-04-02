@@ -382,6 +382,8 @@ public enum L10n {
             public static let helperDescription = String(localized: "onboarding.label.helper_description", defaultValue: "BatFi will install helper tool, that will work in background and is able to change your computer's charging mode.", bundle: Bundle.module)
             /// Installing the helper tool requires admin permissions and is essential for BatFi's functionality.
             public static let helperRequiresAdmin = String(localized: "onboarding.label.helper_requires_admin", defaultValue: "Installing the helper tool requires admin permissions and is essential for BatFi's functionality.", bundle: Bundle.module)
+            /// Please open System Settings → General → Login Items and enable BatFi there.
+            public static let helperRequiresApproval = String(localized: "onboarding.label.helper_requires_approval", defaultValue: "Please open System Settings → General → Login Items and make sure BatFi is enabled under \u{201C}Allow in the Background\u{201D}.", bundle: Bundle.module)
             /// Recommended. You can change it later in the app's settings.
             public static let launchAtLoginRecommendation = String(localized: "onboarding.label.launch_at_login_recommendation", defaultValue: "Recommended. You can change it later in the app's settings.", bundle: Bundle.module)
             /// Set Charging Limit.

@@ -134,15 +134,8 @@ let appleGenericRequirement = "anchor apple generic"
 /// Creates a `SMAuthorizedClients` entry representing the app which must go inside the helper tool's info property list.
 func SMAuthorizedClientsEntry() throws -> (key: String, value: [String]) {
     let appIdentifierRequirement = try "identifier \"\(TargetType.app.bundleIdentifier())\""
-    // Create requirement that the app must be its current version or later. This mitigates downgrade attacks where an
-    // older version of the app had a security vulnerability fixed in later versions. The attacker could then
-    // intentionally install and run an older version of the app and exploit its vulnerability in order to talk to
-    // the helper tool.
-    let build = try appBuildNumber()
-    let appVersionRequirement = "info[\(CFBundleVersionKey)] >= \"\(build)\""
     let requirements = try [appleGenericRequirement,
                             appIdentifierRequirement,
-                            appVersionRequirement,
                             organizationalUnitRequirement()]
     let value = [requirements.joined(separator: " and ")]
 
